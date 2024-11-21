@@ -1,18 +1,34 @@
 import React from 'react';
 import Child from './Child';
+import { useState } from 'react';
 
 export default function Parent() {
   const items = [
-    'An item',
-    'A second item',
-    'A third item',
-    'A fourth item',
-    'A fifth item',
-    'A sixth item',
+    'Apple',
+    'Banana',
+    'Cherry',
+    'Grape',
+    'Mango',
+    'Orange',
+    'Pineapple',
+    'Strawberry',
+    'Watermelon'
   ];
-  const handleSearchInput = () => {
-    console.log('Search input changed');
+  const [filteredItems, setFilteredItems] = useState(items);
+
+  const highlightSearchText = (filteredItems: string[], searchText: string) => {
+    filteredItems.map((item) => (
+      console.log('DM ==> item: ', item)
+    ));
   }
+
+  const handleSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchText = event.target.value;
+    let filteredItems = items.filter((item) => item.toLowerCase().includes(searchText.toLowerCase()));
+    highlightSearchText(filteredItems, searchText);
+    setFilteredItems(filteredItems);
+  }
+
   return (
     <div className="card p-3 shadow-sm">
       <h2 className="card-title">Dynamic Search Filter</h2>
@@ -28,7 +44,7 @@ export default function Parent() {
         />
       </div>
       <ul className="list-group">
-        {items.map((item) => (
+        {filteredItems.map((item) => (
           <li key={item} className="list-group-item">{item}</li>
         ))}
       </ul>
